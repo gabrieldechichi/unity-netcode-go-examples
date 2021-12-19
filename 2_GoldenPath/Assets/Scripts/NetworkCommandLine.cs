@@ -7,6 +7,9 @@ public class NetworkCommandLine : MonoBehaviour
     private class NetworkCommandLineArgs
     {
         public const string Mlapi = "-mlapi";
+        public const string DelayMs = "-delayMs";
+        public const string JitterMs = "-jitterMs";
+        public const string DropRatePercent = "-dropRatePercent";
     }
 
     private class MlapiArgValue
@@ -25,6 +28,12 @@ public class NetworkCommandLine : MonoBehaviour
         }
 
         var args = GetCommandLineArgs();
+        HandleNetworkConditionArgs(args);
+        HandleNetworkManagerArgs(args);
+    }
+
+    private void HandleNetworkManagerArgs(Dictionary<string, string> args)
+    {
         if (args.TryGetValue(NetworkCommandLineArgs.Mlapi, out var mlapi))
         {
             switch (mlapi)
@@ -43,6 +52,29 @@ public class NetworkCommandLine : MonoBehaviour
             }
         }
     }
+
+    private void HandleNetworkConditionArgs(Dictionary<string, string> args)
+    {
+        //Code doesn't compile in editor (variables are set to private in UnityTransport.cs when in editor)
+#if DEVELOPMENT_BUILD && !UNITY_EDITOR
+        if (args.TryGetValue(NetworkCommandLineArgs.DelayMs, out var delayMsStr) &&
+            int.TryParse(delayMsStr, out var delayMs))
+        {
+            UnityTransport.ClientPacketDelayMs = delayMs;
+        }
+        if (args.TryGetValue(NetworkCommandLineArgs.JitterMs, out var jitterMsStr) &&
+            int.TryParse(jitterMsStr, out var jitterMs))
+        {
+            UnityTransport.ClientPacketJitterMs = jitterMs;
+        }
+        if (args.TryGetValue(NetworkCommandLineArgs.DropRatePercent, out var dropRateStr) &&
+            int.TryParse(dropRateStr, out var dropRate))
+        {
+            UnityTransport.ClientPacketDropRate = dropRate;
+        }
+#endif
+    }
+
     private Dictionary<string, string> GetCommandLineArgs()
     {
         var args = System.Environment.GetCommandLineArgs();
