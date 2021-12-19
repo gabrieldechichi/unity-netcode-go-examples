@@ -15,13 +15,13 @@ namespace HelloWorld
 
         public void Move()
         {
-            if (IsClient)
+            if (IsServer)
             {
-                Move_ServerRpc();
+                Position.Value = GetRandomPositionOnPlane();
             }
             else
             {
-                Position.Value = GetRandomPositionOnPlane();
+                Move_ServerRpc();
             }
         }
 
