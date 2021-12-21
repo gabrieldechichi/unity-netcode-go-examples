@@ -15,6 +15,12 @@ namespace ClientDriven.Client
 
         private void Awake()
         {
+
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
             if (!IsClient)
             {
                 Destroy(this);
@@ -22,7 +28,10 @@ namespace ClientDriven.Client
             else
             {
                 charCtrl = GetComponent<CharacterController>();
+                input = new InputActions();
                 input.PlayerControls.Enable();
+                //TODO (hack): Hardcoded spawn position
+                transform.position = new Vector3(-48.7f, 0.9f, -11.6f);
             }
         }
 
@@ -39,7 +48,7 @@ namespace ClientDriven.Client
         {
             var movInput = input.PlayerControls.Move.ReadValue<Vector2>();
             var movement = transform.forward * movInput.y + transform.right * movInput.x;
-            charCtrl.SimpleMove(movement * speed * Time.deltaTime);
+            charCtrl.SimpleMove(movement * speed);
 
             var mouseDelta = input.PlayerControls.MouseDelta.ReadValue<Vector2>();
             var rotation = mouseDelta.x * rotateSpeed;
