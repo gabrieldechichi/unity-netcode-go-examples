@@ -4,33 +4,23 @@ using UnityEngine;
 
 namespace ClientDriven.Editor
 {
-    [InitializeOnLoad]
-    public static class NetcodeToolbar
+    public enum NetcodePlayModeStartupOption
     {
-        private enum NetcodePlayModeStartupOption
-        {
-            None = 0, Server, Client, Host
-        }
+        None = 0, Server, Client, Host
+    }
 
-        private static NetcodePlayModeStartupOption NetCodeMode
+    [InitializeOnLoad]
+    public static class NetcodePlayModeEditorHelper
+    {
+        public static NetcodePlayModeStartupOption NetCodeMode
         {
             get => (NetcodePlayModeStartupOption)EditorPrefs.GetInt("NetcodePlayModeStartupOption", 0);
             set => EditorPrefs.SetInt("NetcodePlayModeStartupOption", (int)value);
         }
 
-        static NetcodeToolbar()
+        static NetcodePlayModeEditorHelper()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
-        }
-
-        [MenuItem("Netcode/Play/As Host")]
-        public static void PlayAsHost()
-        {
-            if (!EditorApplication.isPlaying)
-            {
-                NetCodeMode = NetcodePlayModeStartupOption.Host;
-                EditorApplication.isPlaying = true;
-            }
         }
 
         static void OnPlayModeStateChanged(PlayModeStateChange state)
