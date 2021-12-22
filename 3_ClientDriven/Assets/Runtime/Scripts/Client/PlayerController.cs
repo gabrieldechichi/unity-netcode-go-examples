@@ -1,38 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Netcode;
+using ClientDriven.Common;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.InputSystem;
 
 namespace ClientDriven.Client
 {
-    [RequireComponent(typeof(CharacterController))]
-    public class PlayerController : NetworkBehaviour
+    [RequireComponent(
+        typeof(CharacterController),
+        typeof(ClientInteractionComponent))]
+    public class PlayerController : ClientBehaviour
     {
         [SerializeField] private float speed = 10;
         [SerializeField] private float rotateSpeed = 10;
         InputActions input;
         CharacterController charCtrl;
+        public ClientInteractionComponent ClientInteraction { get; private set; }
 
-        private void Awake()
+        private void OnEnable()
         {
+            if (input == null)
+            {
+                input = new InputActions();
+                input.Enable();
+            }
 
+            input.PlayerControls.Interact.performed += OnInteractPressed;
         }
 
-        public override void OnNetworkSpawn()
+        private void OnDisable()
         {
-            base.OnNetworkSpawn();
-            if (!IsClient)
+            if (input != null)
             {
-                Destroy(this);
+                input.PlayerControls.Interact.performed -= OnInteractPressed;
             }
-            else
-            {
-                charCtrl = GetComponent<CharacterController>();
-                input = new InputActions();
-                input.PlayerControls.Enable();
-                //TODO (hack): Hardcoded spawn position
-                transform.position = new Vector3(-48.7f, 0.9f, -11.6f);
-            }
+        }
+
+
+        protected override void OnNetworkSpawnInternal()
+        {
+            base.OnNetworkSpawnInternal();
+            charCtrl = GetComponent<CharacterController>();
+            ClientInteraction = GetComponent<ClientInteractionComponent>();
+            //TODO (hack): Hardcoded spawn position
+            transform.position = new Vector3(-48.7f, 0.9f, -11.6f);
         }
 
         private void OnApplicationFocus(bool focusStatus)
@@ -53,6 +63,16 @@ namespace ClientDriven.Client
             var mouseDelta = input.PlayerControls.MouseDelta.ReadValue<Vector2>();
             var rotation = mouseDelta.x * rotateSpeed;
             transform.Rotate(0, rotation * Time.deltaTime, 0);
+
+        }
+
+        private void OnInteractPressed(InputAction.CallbackContext obj)
+        {
+            Assert.IsNotNull(ClientInteraction);
+            if (ClientInteraction != null)
+            {
+                ClientInteraction.TryInteract();
+            }
         }
     }
 }
