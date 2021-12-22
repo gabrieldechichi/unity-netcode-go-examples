@@ -1,12 +1,9 @@
 {
-    "name": "Client",
+    "name": "Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c",
         "GUID:1491147abca9d7d4bb7105af628b223e",
-        "GUID:3b8ed52f1b5c64994af4c4e0aa4b6c4b",
-        "GUID:695e3df809c1ed049860557714429b26",
-        "GUID:3678e2f4a1f882343bc48985a7967d10"
+        "GUID:3b8ed52f1b5c64994af4c4e0aa4b6c4b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
