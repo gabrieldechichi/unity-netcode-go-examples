@@ -12,10 +12,11 @@ namespace ClientDriven.Editor
     [InitializeOnLoad]
     public static class NetcodePlayModeEditorHelper
     {
+        private static string NetcodePlaymodeStartupOptionKey => $"NetcodeGameObjects_{Application.productName}_NetcodePlayModeStartupOption";
         public static NetcodePlayModeStartupOption NetCodeMode
         {
-            get => (NetcodePlayModeStartupOption)EditorPrefs.GetInt("NetcodePlayModeStartupOption", 0);
-            set => EditorPrefs.SetInt("NetcodePlayModeStartupOption", (int)value);
+            get => (NetcodePlayModeStartupOption)EditorPrefs.GetInt(NetcodePlaymodeStartupOptionKey, 0);
+            set => EditorPrefs.SetInt(NetcodePlaymodeStartupOptionKey, (int)value);
         }
 
         static NetcodePlayModeEditorHelper()

@@ -16,8 +16,19 @@ namespace ClientDriven.Client
         CharacterController charCtrl;
         public ClientInteractionComponent ClientInteraction { get; private set; }
 
+        private void Awake()
+        {
+            charCtrl = GetComponent<CharacterController>();
+            ClientInteraction = GetComponent<ClientInteractionComponent>();
+        }
+
         private void OnEnable()
         {
+            if (IsServer)
+            {
+                enabled = false;
+                return;
+            }
             if (input == null)
             {
                 input = new InputActions();
@@ -39,9 +50,8 @@ namespace ClientDriven.Client
         protected override void OnNetworkSpawnInternal()
         {
             base.OnNetworkSpawnInternal();
-            charCtrl = GetComponent<CharacterController>();
-            ClientInteraction = GetComponent<ClientInteractionComponent>();
             //TODO (hack): Hardcoded spawn position
+            Debug.Log("HEeeere -> " + IsServer + ", " + IsClient);
             transform.position = new Vector3(-48.7f, 0.9f, -11.6f);
         }
 
