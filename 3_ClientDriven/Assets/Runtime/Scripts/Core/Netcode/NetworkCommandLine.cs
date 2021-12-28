@@ -93,5 +93,23 @@ public class NetworkCommandLine : MonoBehaviour
 
         return argsDict;
     }
+
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+
+    private void OnGUI()
+    {
+        GUILayout.BeginArea(new Rect(10, 10, 300, 300));
+
+        var networkManager = NetworkManager.Singleton;
+        var machineStatus = networkManager.IsHost
+            ? "Host" : networkManager.IsClient
+                ? "Client"
+                : "Server";
+        var networkTransport = networkManager.NetworkConfig.NetworkTransport.GetType().Name;
+        GUILayout.TextField($"{machineStatus}\n{networkTransport}");
+        GUILayout.EndArea();
+    }
+
+#endif
 }
 
