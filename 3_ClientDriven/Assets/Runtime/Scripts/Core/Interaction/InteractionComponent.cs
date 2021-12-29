@@ -13,7 +13,7 @@ namespace Core.Interaction
         private Vector3 InteractionCenter => transform.position + transform.forward * interactionDistance;
 
         private Collider[] overlapColliders = new Collider[5];
-        private NetworkVariable<NetworkBehaviourReference> currentInteractableRef;
+        private NetworkVariable<NetworkBehaviourReference> currentInteractableRef = new NetworkVariable<NetworkBehaviourReference>();
 
         public InteractableBase CurrentInteractable
         {
