@@ -55,11 +55,11 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.4",
+      "version": "https://github.com/goncalo/com.unity.ide.vscode.git?path=Packages/com.unity.ide.vscode#master",
       "depth": 0,
-      "source": "registry",
+      "source": "git",
       "dependencies": {},
-      "url": "https://packages.unity.com"
+      "hash": "46c557edeb2376155f8060b878f02771688948f5"
     },
     "com.unity.inputsystem": {
       "version": "1.0.2",
