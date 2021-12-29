@@ -1,6 +1,9 @@
+using System;
+using Core.Interaction;
 using Unity.Netcode;
 using Unity.Netcode.Samples;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Core.Player
 {
@@ -8,6 +11,9 @@ namespace Core.Player
         typeof(CharacterController),
         typeof(ClientNetworkTransform),
         typeof(PlayerInitializer))]
+    [RequireComponent(
+        typeof(InteractionComponent)
+    )]
     public partial class PlayerController : NetworkBehaviour
     {
         [SerializeField] private float speed = 10;
@@ -15,16 +21,21 @@ namespace Core.Player
         private CharacterController charCtrl;
         private InputActions inputActions;
 
+        private InteractionComponent interactionComp;
+
         private void Awake()
         {
             charCtrl = GetComponent<CharacterController>();
+            interactionComp = GetComponent<InteractionComponent>();
             inputActions = new InputActions();
             inputActions.PlayerControls.Enable();
+
+            inputActions.PlayerControls.Interact.performed += OnInteractPressed;
         }
 
         private void OnEnable()
         {
-            if (IsServer)
+            if (IsServer && !IsHost)
             {
                 enabled = false;
             }
@@ -45,6 +56,11 @@ namespace Core.Player
             {
                 ClientProcessInput();
             }
+        }
+
+        private void OnInteractPressed(InputAction.CallbackContext obj)
+        {
+            interactionComp.TryInteract();
         }
     }
 }

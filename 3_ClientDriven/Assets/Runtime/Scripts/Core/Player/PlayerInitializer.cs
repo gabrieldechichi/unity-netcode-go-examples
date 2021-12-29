@@ -13,7 +13,7 @@ namespace Core.Player
         {
             base.OnNetworkSpawn();
             cam.transform.SetParent(null);
-            if (IsServer || !IsOwner)
+            if ((IsServer && !IsHost) || !IsOwner)
             {
                 cam.GetComponent<UnityEngine.Camera>().enabled = false;
             }
