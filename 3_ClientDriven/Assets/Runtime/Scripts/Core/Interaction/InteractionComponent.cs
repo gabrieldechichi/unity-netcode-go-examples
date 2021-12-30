@@ -33,28 +33,25 @@ namespace Core.Interaction
 
         public void TryInteract()
         {
-            if (IsServer)
-            {
-                ExecuteInteraction();
-            }
-            else
-            {
-                ExecuteInteraction_ServerRpc();
-            }
-        }
-
-        private void ExecuteInteraction()
-        {
             if (CurrentInteractable == null)
             {
                 var interactable = FindFirstInteractable();
                 if (interactable != null)
                 {
-                    CurrentInteractable = interactable;
-                    CurrentInteractable.StartInteraction(this);
+                    StartInteraction_ServerRpc(interactable);
                 }
             }
             else
+            {
+                EndInteraction_ServerRpc(CurrentInteractable);
+            }
+        }
+
+        [ServerRpc(RequireOwnership = true)]
+        private void EndInteraction_ServerRpc(NetworkBehaviourReference interactableRef)
+        {
+            if (interactableRef.TryGet<InteractableBase>(out var interactable)
+                && interactable == CurrentInteractable)
             {
                 CurrentInteractable.EndInteraction(this);
                 CurrentInteractable = null;
@@ -62,11 +59,23 @@ namespace Core.Interaction
         }
 
         [ServerRpc(RequireOwnership = true)]
-        private void ExecuteInteraction_ServerRpc()
+        private void StartInteraction_ServerRpc(NetworkBehaviourReference interactableRef)
         {
-            if (IsServer)
+            bool IsInteractableInRange(InteractableBase interactable)
             {
-                TryInteract();
+                const float rangeToleranceMultiplier = 2.0f;
+                return (InteractionCenter - interactable.transform.position).sqrMagnitude
+                    < interactionRadius * interactionRadius * rangeToleranceMultiplier;
+            }
+
+            if (CurrentInteractable == null)
+            {
+                if (interactableRef.TryGet<InteractableBase>(out var interactable)
+                    && IsInteractableInRange(interactable))
+                {
+                    CurrentInteractable = interactable;
+                    CurrentInteractable.StartInteraction(this);
+                }
             }
         }
 
