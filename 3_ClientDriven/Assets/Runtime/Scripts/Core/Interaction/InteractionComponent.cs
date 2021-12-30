@@ -43,8 +43,13 @@ namespace Core.Interaction
             }
             else
             {
-                EndInteraction_ServerRpc(CurrentInteractable);
+                EndInteraction();
             }
+        }
+
+        public void EndInteraction()
+        {
+            EndInteraction_ServerRpc(CurrentInteractable);
         }
 
         [ServerRpc(RequireOwnership = true)]
