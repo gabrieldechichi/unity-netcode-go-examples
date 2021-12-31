@@ -41,6 +41,10 @@ GameObject:
   - component: {fileID: 7887081210790658556}
   - component: {fileID: 2262907985551886865}
   - component: {fileID: 530907298150859369}
+  - component: {fileID: 5692462046779931826}
+  - component: {fileID: 2531217721654658186}
+  - component: {fileID: 6134120439676006183}
+  - component: {fileID: 3628955909508008344}
   m_Layer: 0
   m_Name: Stove
   m_TagString: Untagged
@@ -113,3 +117,59 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5692462046779931826
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477509591581812289}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8961648, y: 7.18914, z: 1}
+  m_Center: {x: -0.03295177, y: 3.0945706, z: 0}
+--- !u!114 &2531217721654658186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477509591581812289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d86231e38f438e40b45b215db960413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6134120439676006183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477509591581812289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ea359a7ab1cbc74db57b7943ab2b7af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  definitions: {fileID: 11400000, guid: 917e63463130e834ebac00a41834d73c, type: 2}
+  ingredientType:
+    m_InternalValue: 0
+--- !u!114 &3628955909508008344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8477509591581812289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1

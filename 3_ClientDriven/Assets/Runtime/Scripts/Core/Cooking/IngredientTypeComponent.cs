@@ -41,7 +41,10 @@ namespace Core.Cooking
 
         private void UpdateMaterial()
         {
-            Renderer.material = definitions.GetDefinitionForType(IngredientType).Material;
+            if (definitions != null)
+            {
+                Renderer.material = definitions.GetDefinitionForType(IngredientType).Material;
+            }
         }
 
         private void OnValidate()

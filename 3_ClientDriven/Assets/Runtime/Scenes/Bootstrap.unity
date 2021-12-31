@@ -402,6 +402,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 3677255794
       objectReference: {fileID: 0}
+    - target: {fileID: 6134120439676006183, guid: a001f069116a84aa99a143450ad5db4c, type: 3}
+      propertyPath: ingredientType.m_InternalValue
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7887081210790658556, guid: a001f069116a84aa99a143450ad5db4c, type: 3}
       propertyPath: m_RootOrder
       value: 8
