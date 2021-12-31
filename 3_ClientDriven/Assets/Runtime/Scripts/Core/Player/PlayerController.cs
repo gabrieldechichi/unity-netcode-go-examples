@@ -27,18 +27,6 @@ namespace Core.Player
         {
             charCtrl = GetComponent<CharacterController>();
             interactionComp = GetComponent<InteractionComponent>();
-            inputActions = new InputActions();
-            inputActions.PlayerControls.Enable();
-
-            inputActions.PlayerControls.Interact.performed += OnInteractPressed;
-        }
-
-        private void OnEnable()
-        {
-            if (IsServer && !IsHost)
-            {
-                enabled = false;
-            }
         }
 
         public override void OnNetworkSpawn()
@@ -47,6 +35,13 @@ namespace Core.Player
             if (IsOwner && IsClient)
             {
                 TEMP_ClientSetSpawnPosition();
+                inputActions = new InputActions();
+                inputActions.PlayerControls.Enable();
+                inputActions.PlayerControls.Interact.performed += OnInteractPressed;
+            }
+            else
+            {
+                enabled = false;
             }
         }
 
