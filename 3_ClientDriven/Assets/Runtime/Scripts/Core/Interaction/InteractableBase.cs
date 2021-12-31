@@ -5,12 +5,36 @@ namespace Core.Interaction
 {
     public abstract class InteractableBase : NetworkBehaviour
     {
+        private NetworkVariable<NetworkBehaviourReference> currentInteractionCompRef = new NetworkVariable<NetworkBehaviourReference>();
+
+        public InteractionComponent CurrentInteractionComponent
+        {
+            get => currentInteractionCompRef.Value.TryGet<InteractionComponent>(out var interactionComp) ? interactionComp : null;
+            set
+            {
+                if (value != null)
+                {
+                    currentInteractionCompRef.Value = new NetworkBehaviourReference(value);
+                }
+                else
+                {
+                    currentInteractionCompRef.Value = new NetworkBehaviourReference();
+                }
+            }
+        }
+
+        private bool IsInteractoinValid(InteractionComponent interactionComponent)
+        {
+            //No client prediction
+            return IsServer
+                && interactionComponent.CurrentInteractable == this
+                && CurrentInteractionComponent == interactionComponent;
+        }
 
         public void StartInteraction(InteractionComponent interactionComponent)
         {
-            //No client prediction
-            Assert.IsTrue(IsServer);
-            if (IsServer && interactionComponent.CurrentInteractable == this)
+            Assert.IsTrue(IsInteractoinValid(interactionComponent));
+            if (IsInteractoinValid(interactionComponent))
             {
                 StartInteraction_Internal(interactionComponent);
             }
@@ -18,9 +42,8 @@ namespace Core.Interaction
 
         public void EndInteraction(InteractionComponent interactionComponent)
         {
-            //No Client prediction
-            Assert.IsTrue(IsServer);
-            if (IsServer && interactionComponent.CurrentInteractable == this)
+            Assert.IsTrue(IsInteractoinValid(interactionComponent));
+            if (IsInteractoinValid(interactionComponent))
             {
                 EndInteraction_Internal(interactionComponent);
             }

@@ -56,9 +56,11 @@ namespace Core.Interaction
         private void EndInteraction_ServerRpc(NetworkBehaviourReference interactableRef)
         {
             if (interactableRef.TryGet<InteractableBase>(out var interactable)
-                && interactable == CurrentInteractable)
+                && interactable == CurrentInteractable
+                && interactable.CurrentInteractionComponent == this)
             {
                 CurrentInteractable.EndInteraction(this);
+                CurrentInteractable.CurrentInteractionComponent = null;
                 CurrentInteractable = null;
             }
         }
@@ -66,19 +68,22 @@ namespace Core.Interaction
         [ServerRpc(RequireOwnership = true)]
         private void StartInteraction_ServerRpc(NetworkBehaviourReference interactableRef)
         {
-            bool IsInteractableInRange(InteractableBase interactable)
+            bool CanInteractWith(InteractableBase interactable)
             {
                 const float rangeToleranceMultiplier = 2.0f;
-                return (InteractionCenter - interactable.transform.position).sqrMagnitude
+                bool isInRange = (InteractionCenter - interactable.transform.position).sqrMagnitude
                     < interactionRadius * interactionRadius * rangeToleranceMultiplier;
+
+                return interactable.CurrentInteractionComponent == null && isInRange;
             }
 
             if (CurrentInteractable == null)
             {
                 if (interactableRef.TryGet<InteractableBase>(out var interactable)
-                    && IsInteractableInRange(interactable))
+                    && CanInteractWith(interactable))
                 {
                     CurrentInteractable = interactable;
+                    interactable.CurrentInteractionComponent = this;
                     CurrentInteractable.StartInteraction(this);
                 }
             }
