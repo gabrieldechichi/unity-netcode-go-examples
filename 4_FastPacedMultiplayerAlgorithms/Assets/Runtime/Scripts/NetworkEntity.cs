@@ -25,15 +25,25 @@ namespace Runtime.Simulation
         {
             if (IsInputValid(msg))
             {
-                var position = transform.position;
-                var frameMovement = (movementSpeed * msg.FrameInputX);
-                var prevPos = position;
-                position.x += frameMovement;
-
-                CheckCollisions(ref position, prevPos, frameMovement);
-
-                transform.position = position;
+                Shared_ProcessMovementInput(msg);
             }
+        }
+
+        private void Shared_ProcessMovementInput(MovementInput msg)
+        {
+            var position = transform.position;
+            var frameMovement = (movementSpeed * msg.FrameInputX);
+            var prevPos = position;
+            position.x += frameMovement;
+
+            CheckCollisions(ref position, prevPos, frameMovement);
+
+            transform.position = position;
+        }
+
+        internal void Client_PredictMovement(MovementInput inputMessage)
+        {
+            Shared_ProcessMovementInput(inputMessage);
         }
 
         private bool IsInputValid(MovementInput msg)

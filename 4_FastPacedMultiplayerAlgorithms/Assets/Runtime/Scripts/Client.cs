@@ -28,6 +28,11 @@ namespace Runtime.Simulation
             {
                 var inputMessage = localEntity.Client_ProcessInput(dt);
                 ServerNetwork.Send(inputMessage);
+
+                if (EnableClientPrediction)
+                {
+                    localEntity.Client_PredictMovement(inputMessage);
+                }
             }
         }
 
