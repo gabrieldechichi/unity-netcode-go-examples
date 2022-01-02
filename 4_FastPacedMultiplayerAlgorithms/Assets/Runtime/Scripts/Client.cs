@@ -9,6 +9,8 @@ namespace Runtime.Simulation
 
         [HideInInspector] public string LocalEntityId;
 
+        public bool EnableClientPrediction;
+
         private void Start()
         {
             FindObjectOfType<Server>().Connect(this);

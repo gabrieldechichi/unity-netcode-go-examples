@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24035a4f00aa1f4e8d491d431e228a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  server: {fileID: -2995276878509934002}
+  world: {fileID: -2995276878509934002}
   lagInput: {fileID: 1555594958}
   updateRateInput: {fileID: 383078106}
 --- !u!1 &1666824169
