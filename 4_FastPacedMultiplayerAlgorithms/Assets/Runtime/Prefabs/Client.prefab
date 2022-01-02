@@ -25,7 +25,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3555215077767935139, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.34
+      value: 0.335
       objectReference: {fileID: 0}
     - target: {fileID: 3555215077982635948, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
       propertyPath: m_Name
@@ -103,5 +103,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   worldCamera: {fileID: 3934190792913100345}
+  updatesPerSecond: 30
   ServerNetwork: {fileID: 0}
   LocalEntityId: 

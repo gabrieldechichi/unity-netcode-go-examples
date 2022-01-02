@@ -1,14 +1,18 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Runtime.Network;
 using UnityEngine;
 
 namespace Runtime.Simulation
 {
     [RequireComponent(typeof(LagNetwork))]
-    public class World : MonoBehaviour
+    public abstract class World : MonoBehaviour
     {
         [SerializeField] private LayerMask renderLayer;
         [SerializeField] private Camera worldCamera;
+
+        [SerializeField] private int updatesPerSecond = 10;
 
         private LagNetwork network;
         public LagNetwork Network => network == null ? network = GetComponent<LagNetwork>() : network;
@@ -16,8 +20,23 @@ namespace Runtime.Simulation
 
         private void Awake()
         {
+            /* enabled = false; */
             worldCamera.cullingMask = renderLayer;
+            var cancellationToken = gameObject.GetCancellationTokenOnDestroy();
+            RunUpdate(cancellationToken).Forget();
         }
+
+        private async UniTask RunUpdate(CancellationToken cancellationToken)
+        {
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var dt = (1.0f / updatesPerSecond);
+                await UniTask.Delay((int)(dt * 1000));
+                UpdateWorld(dt);
+            }
+        }
+
+        protected abstract void UpdateWorld(float dt);
 
         public void SpawnEntity(NetworkEntity prefab, string entityId, EntityNetworkRole role)
         {

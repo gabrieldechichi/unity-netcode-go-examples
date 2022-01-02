@@ -254,6 +254,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2995276878509934002, guid: e7d8ae481819e6640b48243e5471d37c, type: 3}
+      propertyPath: updatesPerSecond
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3934190793128832309, guid: e7d8ae481819e6640b48243e5471d37c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -311,10 +315,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3934190792913100345, guid: f23ad4bc3614d484e8e2e433a40fea0d, type: 3}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0.335
-      objectReference: {fileID: 0}
     - target: {fileID: 3934190793128832309, guid: f23ad4bc3614d484e8e2e433a40fea0d, type: 3}
       propertyPath: m_RootOrder
       value: 1

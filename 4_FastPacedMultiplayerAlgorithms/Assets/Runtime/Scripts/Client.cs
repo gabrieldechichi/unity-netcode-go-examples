@@ -14,7 +14,7 @@ namespace Runtime.Simulation
             FindObjectOfType<Server>().Connect(this);
         }
 
-        private void FixedUpdate()
+        protected override void UpdateWorld(float dt)
         {
             ProcessMessages();
             ProcessLocalInput();

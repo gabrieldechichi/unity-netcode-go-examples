@@ -39,10 +39,9 @@ namespace Runtime.Simulation
             clients.Add(newClient);
         }
 
-        private void FixedUpdate()
+        protected override void UpdateWorld(float dt)
         {
             //TODO: Configurable update rate
-            var dt = Time.fixedDeltaTime;
             ProcessMessages(dt);
             SendSnapshot();
         }
@@ -51,7 +50,6 @@ namespace Runtime.Simulation
         {
             foreach (var msg in Network.Receive<MovementInput>())
             {
-                Debug.Log($"Receive Msg for entity {msg.EntityId}, {msg.InputX}");
                 if (entities.TryGetValue(msg.EntityId, out var entity))
                 {
                     entity.Server_ProcessMovementInput(msg, dt);
