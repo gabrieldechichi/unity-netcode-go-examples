@@ -7,6 +7,8 @@ namespace Runtime.Simulation
     {
         public string EntityId;
         public float FrameInputX;
+
+        public int SequenceNumber;
     }
 
     public struct EntitySnapshots
@@ -18,5 +20,7 @@ namespace Runtime.Simulation
     {
         public string EntityId;
         public float PositionX;
+
+        public int LastProcessedSequenceNumber;
     }
 }

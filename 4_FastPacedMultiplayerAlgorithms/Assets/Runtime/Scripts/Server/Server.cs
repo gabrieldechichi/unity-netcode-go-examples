@@ -70,7 +70,7 @@ namespace Runtime.Server
             foreach (var entity in entities.Values)
             {
                 var serverMovement = entity.GetComponent<ServerEntityMovement>();
-                snapshots.Snapshots.Add(serverMovement.Server_GenerateSnapshot());
+                snapshots.Snapshots.Add(serverMovement.GenerateSnapshot());
             }
 
             foreach (var client in clients)

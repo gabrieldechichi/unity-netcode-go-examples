@@ -42,14 +42,6 @@ namespace Runtime.Simulation
             }
         }
 
-        public EntitySnapshot Server_GenerateSnapshot()
-        {
-            return new EntitySnapshot
-            {
-                EntityId = EntityId,
-                PositionX = transform.position.x
-            };
-        }
 
         private void OnDrawGizmos()
         {

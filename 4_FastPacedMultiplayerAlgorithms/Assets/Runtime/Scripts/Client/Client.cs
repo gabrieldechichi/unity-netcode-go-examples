@@ -11,6 +11,7 @@ namespace Runtime.Client
         public string LocalEntityId { get; set; }
 
         public bool EnableClientPrediction;
+        public bool EnableServerReconciliation;
 
         private void Start()
         {
@@ -48,7 +49,7 @@ namespace Runtime.Client
                     if (entities.TryGetValue(snapshot.EntityId, out var entity))
                     {
                         var clientMovement = entity.GetComponent<ClientEntityMovement>();
-                        clientMovement.ReceiveServerSnapshot(snapshot);
+                        clientMovement.ReceiveServerSnapshot(snapshot, EnableServerReconciliation);
                     }
                 }
             }
