@@ -17,14 +17,14 @@ namespace Runtime.Simulation
         protected override void UpdateWorld(float dt)
         {
             ProcessMessages();
-            ProcessLocalInput();
+            ProcessLocalInput(dt);
         }
 
-        private void ProcessLocalInput()
+        private void ProcessLocalInput(float dt)
         {
             if (entities.TryGetValue(LocalEntityId, out var localEntity))
             {
-                var inputMessage = localEntity.Client_ProcessInput();
+                var inputMessage = localEntity.Client_ProcessInput(dt);
                 ServerNetwork.Send(inputMessage);
             }
         }

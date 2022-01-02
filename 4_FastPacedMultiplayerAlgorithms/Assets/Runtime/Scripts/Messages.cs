@@ -6,7 +6,7 @@ namespace Runtime.Simulation
     public struct MovementInput
     {
         public string EntityId;
-        public float InputX;
+        public float FrameInputX;
     }
 
     public struct EntitySnapshots

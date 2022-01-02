@@ -23,15 +23,24 @@ namespace Runtime.Simulation
 
         internal void Server_ProcessMovementInput(MovementInput msg, float dt)
         {
-            var moveInput = Mathf.Clamp(msg.InputX, -1, 1);
-            var position = transform.position;
-            var frameMovement = (dt * movementSpeed * moveInput);
-            var prevPos = position;
-            position.x += frameMovement;
+            if (IsInputValid(msg))
+            {
+                var position = transform.position;
+                var frameMovement = (movementSpeed * msg.FrameInputX);
+                var prevPos = position;
+                position.x += frameMovement;
 
-            CheckCollisions(ref position, prevPos, frameMovement);
+                CheckCollisions(ref position, prevPos, frameMovement);
 
-            transform.position = position;
+                transform.position = position;
+            }
+        }
+
+        private bool IsInputValid(MovementInput msg)
+        {
+            //TODO: Better validation.
+            const float maxClientDt = 1.0f / 20.0f;
+            return Mathf.Abs(msg.FrameInputX) <= maxClientDt;
         }
 
         private void CheckCollisions(ref Vector3 currentPosition, Vector3 previousPosition, float frameMovement)
@@ -61,13 +70,13 @@ namespace Runtime.Simulation
             transform.position = position;
         }
 
-        internal MovementInput Client_ProcessInput()
+        internal MovementInput Client_ProcessInput(float dt)
         {
             var movementInput = Input.GetAxisRaw("Horizontal");
             return new MovementInput
             {
                 EntityId = EntityId,
-                InputX = movementInput
+                FrameInputX = movementInput * dt
             };
         }
 
