@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Runtime.Network;
 using UnityEngine;
 
 namespace Runtime.Network
@@ -12,9 +13,9 @@ namespace Runtime.Network
         }
         public float LagMs = 100;
 
-        private Queue<NetworkMessage> messages;
+        private Queue<NetworkMessage> messages = new Queue<NetworkMessage>();
 
-        public void Send<T>(T payload) where T : struct
+        public void Send<T>(T payload)
         {
             var networkMsg = new NetworkMessage
             {
@@ -24,16 +25,16 @@ namespace Runtime.Network
             messages.Enqueue(networkMsg);
         }
 
-        public IEnumerator<object> Receive()
+        public IEnumerable<T> Receive<T>()
         {
             bool CanReceiveMessage(in NetworkMessage msg)
             {
                 return (Time.time - msg.TimestampMs) >= LagMs;
             }
 
-            while (CanReceiveMessage(messages.Peek()))
+            while (messages.Count > 0 && CanReceiveMessage(messages.Peek()))
             {
-                yield return messages.Dequeue().Payload;
+                yield return (T)messages.Dequeue().Payload;
             }
         }
     }
