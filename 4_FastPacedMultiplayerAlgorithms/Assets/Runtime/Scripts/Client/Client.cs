@@ -1,19 +1,21 @@
 using Runtime.Network;
+using Runtime.Simulation;
 using UnityEngine;
 
-namespace Runtime.Simulation
+namespace Runtime.Client
 {
-    public class Client : World
+    public class Client : World, IClient
     {
-        [HideInInspector] public LagNetwork ServerNetwork;
+        public LagNetwork ServerNetwork { get; set; }
 
-        [HideInInspector] public string LocalEntityId;
+        public string LocalEntityId { get; set; }
 
         public bool EnableClientPrediction;
 
         private void Start()
         {
-            FindObjectOfType<Server>().Connect(this);
+            var server = GameObject.FindGameObjectWithTag("Server");
+            server.GetComponent<IServer>().Connect(this);
         }
 
         protected override void UpdateWorld(float dt)
@@ -26,12 +28,13 @@ namespace Runtime.Simulation
         {
             if (entities.TryGetValue(LocalEntityId, out var localEntity))
             {
-                var inputMessage = localEntity.Client_ProcessInput(dt);
+                var clientMovement = localEntity.GetComponent<ClientEntityMovement>();
+                var inputMessage = clientMovement.BuildInputMessage(dt);
                 ServerNetwork.Send(inputMessage);
 
                 if (EnableClientPrediction)
                 {
-                    localEntity.Client_PredictMovement(inputMessage);
+                    clientMovement.Move(inputMessage);
                 }
             }
         }
@@ -44,7 +47,8 @@ namespace Runtime.Simulation
                 {
                     if (entities.TryGetValue(snapshot.EntityId, out var entity))
                     {
-                        entity.Client_ReceiveServerSnapshot(snapshot);
+                        var clientMovement = entity.GetComponent<ClientEntityMovement>();
+                        clientMovement.ReceiveServerSnapshot(snapshot);
                     }
                 }
             }

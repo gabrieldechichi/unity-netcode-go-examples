@@ -1,16 +1,18 @@
 using System;
 using System.Collections.Generic;
+using Runtime.Simulation;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Runtime.Simulation
+namespace Runtime.Server
 {
-    public class Server : World
+
+    public class Server : World, IServer
     {
         [SerializeField] private NetworkEntity playerPrefab;
-        private List<Client> clients = new List<Client>();
+        private List<IClient> clients = new List<IClient>();
 
-        public void Connect(Client newClient)
+        public void Connect(IClient newClient)
         {
             var entityId = Guid.NewGuid().ToString();
             //TODO: send network message
@@ -42,17 +44,18 @@ namespace Runtime.Simulation
         protected override void UpdateWorld(float dt)
         {
             //TODO: Configurable update rate
-            ProcessMessages(dt);
+            ProcessMessages();
             SendSnapshot();
         }
 
-        private void ProcessMessages(float dt)
+        private void ProcessMessages()
         {
             foreach (var msg in Network.Receive<MovementInput>())
             {
                 if (entities.TryGetValue(msg.EntityId, out var entity))
                 {
-                    entity.Server_ProcessMovementInput(msg, dt);
+                    var serverMovement = entity.GetComponent<ServerEntityMovement>();
+                    serverMovement.Move(msg);
                 }
             }
         }
@@ -66,7 +69,8 @@ namespace Runtime.Simulation
 
             foreach (var entity in entities.Values)
             {
-                snapshots.Snapshots.Add(entity.Server_GenerateSnapshot());
+                var serverMovement = entity.GetComponent<ServerEntityMovement>();
+                snapshots.Snapshots.Add(serverMovement.Server_GenerateSnapshot());
             }
 
             foreach (var client in clients)

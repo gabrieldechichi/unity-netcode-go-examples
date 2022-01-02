@@ -1,11 +1,9 @@
 {
-    "name": "UI",
+    "name": "Server",
     "rootNamespace": "",
     "references": [
-        "GUID:bc30db3f0e1e1e34ea82109670dda9a6",
-        "GUID:a436c87511b624348a9c46667d7ac48b",
-        "GUID:b1797821a7313694c8c58f80eedb6bd2",
-        "GUID:5946ef1e86a6e1745abc54170ab3bfef"
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:a436c87511b624348a9c46667d7ac48b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

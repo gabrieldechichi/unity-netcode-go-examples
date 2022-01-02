@@ -580,7 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a24035a4f00aa1f4e8d491d431e228a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  world: {fileID: -2995276878509934002}
+  world: {fileID: 0}
   lagInput: {fileID: 1555594958}
   updateRateInput: {fileID: 383078106}
 --- !u!1 &1666824169
@@ -956,7 +956,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9074805055381229990, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
+      propertyPath: LagMs
+      value: 150
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3555215077982635950, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
 --- !u!20 &3934190792913100345 stripped
 Camera:
@@ -973,7 +978,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1625072524879944181, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
   m_PrefabInstance: {fileID: 562849796667927194}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-2995276878509934002
+--- !u!114 &26427273298110741
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -982,12 +987,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3934190793128832310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89ec69a98e0c3084c8b06846b33fd4a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 9158e935da882de4e91aa9a58c1cb856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   renderLayer:
     serializedVersion: 2
     m_Bits: 64
   worldCamera: {fileID: 3934190792913100345}
-  updatesPerSecond: 5
-  playerPrefab: {fileID: 6167863243038207681, guid: fa62c5022e2acd342963c375fd45ec3f, type: 3}
+  updatesPerSecond: 10
+  playerPrefab: {fileID: 2793171661202975595, guid: fa62c5022e2acd342963c375fd45ec3f, type: 3}

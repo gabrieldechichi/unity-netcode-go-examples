@@ -87,7 +87,7 @@ Camera:
   m_CorrespondingSourceObject: {fileID: 3555215077767935139, guid: d9fc72a2602c33b4eaf50c5e446b13ed, type: 3}
   m_PrefabInstance: {fileID: 562849796667927194}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-4205659494802069370
+--- !u!114 &1829333142108172289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -96,7 +96,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3934190793128832310}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1151233dcda5c67499869a3be6392a3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7315ef3002090b14d82064ebb020c33c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   renderLayer:
@@ -104,5 +104,4 @@ MonoBehaviour:
     m_Bits: 128
   worldCamera: {fileID: 3934190792913100345}
   updatesPerSecond: 30
-  ServerNetwork: {fileID: 0}
-  LocalEntityId: 
+  EnableClientPrediction: 1
