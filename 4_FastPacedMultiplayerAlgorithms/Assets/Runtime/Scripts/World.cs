@@ -14,6 +14,12 @@ namespace Runtime.Simulation
 
         [SerializeField] private int updatesPerSecond = 10;
 
+        public int UpdatesPerSecond
+        {
+            get => updatesPerSecond;
+            set => updatesPerSecond = value;
+        }
+
         private LagNetwork network;
         public LagNetwork Network => network == null ? network = GetComponent<LagNetwork>() : network;
         protected Dictionary<string, NetworkEntity> entities = new Dictionary<string, NetworkEntity>();
@@ -22,6 +28,11 @@ namespace Runtime.Simulation
         {
             /* enabled = false; */
             worldCamera.cullingMask = renderLayer;
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                transform.GetChild(i).gameObject.layer = MaskToLayer(renderLayer);
+            }
+
             var cancellationToken = gameObject.GetCancellationTokenOnDestroy();
             RunUpdate(cancellationToken).Forget();
         }
@@ -43,10 +54,15 @@ namespace Runtime.Simulation
             var entity = Instantiate(prefab);
             entity.EntityId = entityId;
             entity.Role = role;
-            entity.gameObject.layer = (int)Mathf.Log(renderLayer.value, 2);
+            entity.gameObject.layer = MaskToLayer(renderLayer);
             entity.transform.parent = transform;
 
             entities.Add(entityId, entity);
+        }
+
+        private static int MaskToLayer(LayerMask mask)
+        {
+            return (int)Mathf.Log(mask.value, 2);
         }
 
     }
