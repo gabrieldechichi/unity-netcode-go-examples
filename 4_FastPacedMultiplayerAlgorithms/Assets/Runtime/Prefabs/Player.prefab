@@ -98,3 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EntityId: 
   movementSpeed: 1
+  collisionRadius: 0.5
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 2048
