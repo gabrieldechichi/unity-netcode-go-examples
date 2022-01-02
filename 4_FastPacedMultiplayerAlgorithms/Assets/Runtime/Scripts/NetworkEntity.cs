@@ -11,29 +11,43 @@ namespace Runtime.Simulation
     public class NetworkEntity : MonoBehaviour
     {
         [HideInInspector] public string EntityId;
+        [SerializeField] private float movementSpeed = 10;
 
         public EntityNetworkRole Role { get; internal set; }
 
-        internal void Server_ProcessMovementInput(MovementInput msg)
+        internal void Server_ProcessMovementInput(MovementInput msg, float dt)
         {
-            Debug.Log("Server Process Movement Input");
+            var moveInput = Mathf.Clamp(msg.InputX, -1, 1);
+            var position = transform.position;
+            position.x += (dt * movementSpeed * moveInput);
+
+            transform.position = position;
         }
 
         internal EntitySnapshot Server_GenerateSnapshot()
         {
-            Debug.Log("Server Generate Snapshot");
-            return new EntitySnapshot();
+            return new EntitySnapshot
+            {
+                EntityId = EntityId,
+                PositionX = transform.position.x
+            };
         }
 
         internal void Client_ReceiveServerSnapshot(EntitySnapshot snapshot)
         {
-            Debug.Log("Client Receive Server Snapshot");
+            var position = transform.position;
+            position.x = snapshot.PositionX;
+            transform.position = position;
         }
 
         internal MovementInput Client_ProcessInput()
         {
-            Debug.Log("Client PRocess Input");
-            return new MovementInput();
+            var movementInput = Input.GetAxisRaw("Horizontal");
+            return new MovementInput
+            {
+                EntityId = EntityId,
+                InputX = movementInput
+            };
         }
     }
 }

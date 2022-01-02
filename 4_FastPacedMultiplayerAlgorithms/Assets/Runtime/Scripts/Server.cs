@@ -42,17 +42,19 @@ namespace Runtime.Simulation
         private void FixedUpdate()
         {
             //TODO: Configurable update rate
-            ProcessMessages();
+            var dt = Time.fixedDeltaTime;
+            ProcessMessages(dt);
             SendSnapshot();
         }
 
-        private void ProcessMessages()
+        private void ProcessMessages(float dt)
         {
             foreach (var msg in Network.Receive<MovementInput>())
             {
+                Debug.Log($"Receive Msg for entity {msg.EntityId}, {msg.InputX}");
                 if (entities.TryGetValue(msg.EntityId, out var entity))
                 {
-                    entity.Server_ProcessMovementInput(msg);
+                    entity.Server_ProcessMovementInput(msg, dt);
                 }
             }
         }

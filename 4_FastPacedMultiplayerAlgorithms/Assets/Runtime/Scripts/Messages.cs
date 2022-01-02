@@ -1,12 +1,12 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Runtime.Simulation
 {
     public struct MovementInput
     {
         public string EntityId;
-        public int SequenceNumber;
-        public float XInput;
+        public float InputX;
     }
 
     public struct EntitySnapshots
@@ -16,7 +16,7 @@ namespace Runtime.Simulation
 
     public struct EntitySnapshot
     {
-        public string EntityId { get; internal set; }
+        public string EntityId;
+        public float PositionX;
     }
-
 }
