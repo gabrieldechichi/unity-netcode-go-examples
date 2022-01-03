@@ -39,7 +39,6 @@ namespace Runtime.Simulation
             }
         }
 
-
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.white;

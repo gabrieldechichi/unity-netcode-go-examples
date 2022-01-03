@@ -1,7 +1,8 @@
 namespace Runtime.Simulation
 {
-    public interface IServer
+    public interface IServer : IWorld
     {
         void Connect(IClient newClient);
+
     }
 }

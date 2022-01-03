@@ -14,7 +14,7 @@ namespace Runtime.Client
         protected override void OnNetworkSpawnInternal()
         {
             base.OnNetworkSpawnInternal();
-            /* GetComponent<EntityMovementData>().CollisionMask = 0; */
+            GetComponent<EntityMovementData>().CollisionMask = 0;
         }
 
         public override void Move(MovementInput inputMessage)
@@ -54,9 +54,21 @@ namespace Runtime.Client
             return -1;
         }
 
-        public MovementInput BuildInputMessage(float dt)
+        public MovementInput BuildInputMessage(float dt, ClientInputType inputType)
         {
-            var movementInput = Input.GetAxisRaw("Horizontal");
+            var movementInput = 0.0f;
+            switch (inputType)
+            {
+                case ClientInputType.None:
+                    break;
+                case ClientInputType.WASD:
+                    movementInput = Input.GetKey(KeyCode.A) ? -1 : Input.GetKey(KeyCode.D) ? 1 : 0;
+                    break;
+                case ClientInputType.ArrowKeys:
+                    movementInput = Input.GetKey(KeyCode.LeftArrow) ? -1 : Input.GetKey(KeyCode.RightArrow) ? 1 : 0;
+                    break;
+            }
+
             var inputMessage = new MovementInput
             {
                 EntityId = EntityId,

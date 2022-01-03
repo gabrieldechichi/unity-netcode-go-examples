@@ -2,7 +2,11 @@ using Runtime.Network;
 
 namespace Runtime.Simulation
 {
-    public interface IClient
+    public interface IWorld
+    {
+        NetworkEntity GetEntity(string id);
+    }
+    public interface IClient : IWorld
     {
         LagNetwork Network { get; }
         LagNetwork ServerNetwork { get; set; }

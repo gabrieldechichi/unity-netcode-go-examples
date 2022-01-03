@@ -37,6 +37,11 @@ namespace Runtime.Simulation
             RunUpdate(cancellationToken).Forget();
         }
 
+        public NetworkEntity GetEntity(string id)
+        {
+            return entities.TryGetValue(id, out var entity) ? entity : null;
+        }
+
         private async UniTask RunUpdate(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
