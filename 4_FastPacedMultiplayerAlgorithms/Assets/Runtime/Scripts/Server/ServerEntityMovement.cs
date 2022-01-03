@@ -31,7 +31,8 @@ namespace Runtime.Server
             {
                 EntityId = EntityId,
                 PositionX = transform.position.x,
-                LastProcessedSequenceNumber = lastProcessedSequenceNumber
+                LastProcessedSequenceNumber = lastProcessedSequenceNumber,
+                ServerTimeMs = Time.time * 1000
             };
         }
     }

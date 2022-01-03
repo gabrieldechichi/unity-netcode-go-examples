@@ -1,6 +1,4 @@
-using System;
 using Runtime.Client;
-using Runtime.Simulation;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +8,7 @@ namespace UI
     {
         [SerializeField] private Toggle clientPredictionToggle;
         [SerializeField] private Toggle serverReconciliationToggle;
+        [SerializeField] private Toggle clientInterpolationToggle;
 
         private void Awake()
         {
@@ -21,13 +20,16 @@ namespace UI
             base.OnEnable();
             clientPredictionToggle.onValueChanged.AddListener(OnClientPredictionToggle);
             serverReconciliationToggle.onValueChanged.AddListener(OnServerReconcilicationToggle);
+            clientInterpolationToggle.onValueChanged.AddListener(OnClientInterpolationToggle);
         }
+
 
         protected override void OnDisable()
         {
             base.OnDisable();
             clientPredictionToggle.onValueChanged.RemoveListener(OnClientPredictionToggle);
             serverReconciliationToggle.onValueChanged.RemoveListener(OnServerReconcilicationToggle);
+            clientInterpolationToggle.onValueChanged.RemoveListener(OnClientInterpolationToggle);
         }
 
         private void OnServerReconcilicationToggle(bool newValue)
@@ -41,12 +43,18 @@ namespace UI
             world.EnableClientPrediction = newValue;
             UpdateUI();
         }
+        private void OnClientInterpolationToggle(bool newValue)
+        {
+            world.EnableClientInterpolation = newValue;
+            UpdateUI();
+        }
 
         protected override void UpdateUI()
         {
             base.UpdateUI();
             clientPredictionToggle.isOn = world.EnableClientPrediction;
             serverReconciliationToggle.isOn = world.EnableServerReconciliation;
+            clientInterpolationToggle.isOn = world.EnableClientInterpolation;
         }
     }
 }

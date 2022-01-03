@@ -14,7 +14,7 @@ namespace Runtime.Client
         protected override void OnNetworkSpawnInternal()
         {
             base.OnNetworkSpawnInternal();
-            GetComponent<EntityMovementData>().CollisionMask = 0;
+            /* GetComponent<EntityMovementData>().CollisionMask = 0; */
         }
 
         public override void Move(MovementInput inputMessage)

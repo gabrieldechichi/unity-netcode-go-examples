@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Runtime.Simulation
 {
     [RequireComponent(typeof(LagNetwork))]
-    public abstract class World : MonoBehaviour
+    public abstract class World : MonoBehaviour, IWorld
     {
         [SerializeField] private LayerMask renderLayer;
         [SerializeField] private Camera worldCamera;

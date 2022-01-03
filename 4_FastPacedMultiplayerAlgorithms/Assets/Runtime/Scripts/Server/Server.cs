@@ -16,7 +16,7 @@ namespace Runtime.Server
         {
             var entityId = Guid.NewGuid().ToString();
             //TODO: send network message
-            newClient.ServerNetwork = Network;
+            newClient.Server = this;
             newClient.LocalEntityId = entityId;
 
             SpawnEntity(playerPrefab, entityId, EntityNetworkRole.Server);

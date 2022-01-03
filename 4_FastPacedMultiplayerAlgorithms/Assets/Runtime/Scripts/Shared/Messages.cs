@@ -21,6 +21,8 @@ namespace Runtime.Simulation
         public string EntityId;
         public float PositionX;
 
+        public float ServerTimeMs;
+
         public int LastProcessedSequenceNumber;
     }
 }

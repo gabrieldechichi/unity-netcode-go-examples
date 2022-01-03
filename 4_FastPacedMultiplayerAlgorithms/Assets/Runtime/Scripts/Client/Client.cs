@@ -1,3 +1,4 @@
+using System;
 using Runtime.Network;
 using Runtime.Simulation;
 using UnityEngine;
@@ -11,7 +12,8 @@ namespace Runtime.Client
 
     public class Client : World, IClient
     {
-        public LagNetwork ServerNetwork { get; set; }
+        public IServer Server { get; set; }
+        public LagNetwork ServerNetwork => Server.Network;
 
         public string LocalEntityId { get; set; }
 
@@ -20,7 +22,13 @@ namespace Runtime.Client
         public bool EnableClientPrediction;
         public bool EnableServerReconciliation;
 
+        public bool EnableClientInterpolation;
+
         public ClientInputType inputType;
+
+        private float ServerTimeMs => (Time.time * 1000) - Network.LagMs;
+
+        private float ServerFrameIntervalMs => 1000.0f / Server.UpdatesPerSecond;
 
         private void Start()
         {
@@ -33,9 +41,12 @@ namespace Runtime.Client
             foreach (var world in worlds)
             {
                 var entity = world.GetEntity(LocalEntityId);
-                var color = playerColor;
-                color.a = entity.Role == EntityNetworkRole.OwningClient ? 1.0f : 0.5f;
-                entity.GetComponent<SpriteRenderer>().color = color;
+                if (entity != null)
+                {
+                    var color = playerColor;
+                    color.a = entity.Role == EntityNetworkRole.OwningClient ? 1.0f : 0.5f;
+                    entity.GetComponent<SpriteRenderer>().color = color;
+                }
             }
         }
 
@@ -43,6 +54,21 @@ namespace Runtime.Client
         {
             ProcessMessages();
             ProcessLocalInput(dt);
+            InterpolateEntities();
+        }
+
+        private void InterpolateEntities()
+        {
+            if (EnableClientInterpolation)
+            {
+                foreach (var entity in entities.Values)
+                {
+                    if (entity.EntityId != LocalEntityId)
+                    {
+                        entity.GetComponent<GhostEntityMovement>().Interpolate(ServerTimeMs, ServerFrameIntervalMs);
+                    }
+                }
+            }
         }
 
         private void ProcessLocalInput(float dt)
@@ -76,7 +102,7 @@ namespace Runtime.Client
                         else
                         {
                             var ghostMovement = entity.GetComponent<GhostEntityMovement>();
-                            ghostMovement.ReceiveServerSnapshot(snapshot);
+                            ghostMovement.ReceiveServerSnapshot(snapshot, EnableClientInterpolation);
                         }
                     }
                 }
