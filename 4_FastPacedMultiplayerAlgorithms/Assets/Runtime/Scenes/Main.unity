@@ -414,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3934190793128832310, guid: f23ad4bc3614d484e8e2e433a40fea0d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4734264717278375390, guid: f23ad4bc3614d484e8e2e433a40fea0d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -913,6 +913,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1829333142108172289, guid: f23ad4bc3614d484e8e2e433a40fea0d, type: 3}
+      propertyPath: EnableClientInterpolation
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3934190793128832309, guid: f23ad4bc3614d484e8e2e433a40fea0d, type: 3}
       propertyPath: m_RootOrder
       value: 1
