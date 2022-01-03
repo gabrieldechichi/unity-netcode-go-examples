@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Runtime.Simulation
 {
     [RequireComponent(typeof(EntityMovementData), typeof(NetworkEntity))]
-    public abstract class EntityMovement : MonoBehaviour
+    public abstract class EntityMovement : ExclusiveNetworkBehaviour
     {
         private RaycastHit2D[] hits = new RaycastHit2D[5];
 
@@ -13,9 +13,6 @@ namespace Runtime.Simulation
         protected float CollisionRadius => MovementData.CollisionRadius;
         protected LayerMask CollisionMask => MovementData.CollisionMask;
 
-        public NetworkEntity Entity => GetComponent<NetworkEntity>();
-
-        public string EntityId => Entity.EntityId;
 
         public abstract void Move(MovementInput msg);
 

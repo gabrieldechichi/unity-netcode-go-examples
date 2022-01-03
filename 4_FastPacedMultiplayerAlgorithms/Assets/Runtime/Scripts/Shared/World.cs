@@ -27,7 +27,7 @@ namespace Runtime.Simulation
         private void Awake()
         {
             /* enabled = false; */
-            worldCamera.cullingMask = renderLayer;
+            worldCamera.cullingMask |= renderLayer;
             for (int i = 0; i < transform.childCount; i++)
             {
                 transform.GetChild(i).gameObject.layer = MaskToLayer(renderLayer);
@@ -58,6 +58,8 @@ namespace Runtime.Simulation
             entity.transform.parent = transform;
 
             entities.Add(entityId, entity);
+
+            entity.OnNetworkSpawn();
         }
 
         private static int MaskToLayer(LayerMask mask)

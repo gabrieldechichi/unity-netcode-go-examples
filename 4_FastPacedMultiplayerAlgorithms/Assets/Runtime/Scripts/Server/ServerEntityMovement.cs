@@ -6,6 +6,9 @@ namespace Runtime.Server
     public class ServerEntityMovement : EntityMovement
     {
         private int lastProcessedSequenceNumber;
+
+        protected override EntityNetworkRole EnabledRole => EntityNetworkRole.Server;
+
         public override void Move(MovementInput msg)
         {
             if (IsInputValid(msg))

@@ -112,9 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1bc48961721b1648bee5312a6caf259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  collisionRadius: 0.5
-  collisionMask:
+  MovementSpeed: 7
+  CollisionRadius: 0.5
+  CollisionMask:
     serializedVersion: 2
     m_Bits: 2048
 --- !u!114 &6399853452467019010

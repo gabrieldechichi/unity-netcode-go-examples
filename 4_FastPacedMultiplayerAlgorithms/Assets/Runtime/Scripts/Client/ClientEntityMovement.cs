@@ -9,6 +9,14 @@ namespace Runtime.Client
         private List<MovementInput> pendingInputs = new List<MovementInput>();
         private int nextInputSequencedNumber = 0;
 
+        protected override EntityNetworkRole EnabledRole => EntityNetworkRole.OwningClient;
+
+        protected override void OnNetworkSpawnInternal()
+        {
+            base.OnNetworkSpawnInternal();
+            /* GetComponent<EntityMovementData>().CollisionMask = 0; */
+        }
+
         public override void Move(MovementInput inputMessage)
         {
             ExecuteMove(inputMessage);
